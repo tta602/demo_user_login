@@ -7,6 +7,10 @@ const cors = require("cors");
 const { applicationLogger } = require("./loggers/mylogger.log");
 const ErrorMessage = require("./enum/error.message");
 const { NotFoundError } = require("./core/error.response");
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger/swagger');
+
 const app = express();
 
 const { v4: uuidv4 } = require("uuid");
@@ -25,6 +29,8 @@ app.use(compression());
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use((req, res, next) => {
   const requestId = req.headers["x-request-id"];
