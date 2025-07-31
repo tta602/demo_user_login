@@ -36,7 +36,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
   swaggerOptions: {
-    url: `http://207.148.72.26:${port}/swagger.json`, // dùng template string
+    url: '/swagger.json', // dùng template string
   }
 }));
 
