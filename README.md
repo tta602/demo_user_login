@@ -20,8 +20,9 @@ Một RESTful API demo sử dụng Node.js, Express, JWT Authentication, MariaDB
 ### 1. Clone dự án
 
 ```bash
-git clone https://github.com/your-username/demo-nodejs-api.git
-cd demo-nodejs-api
+git clone https://github.com/tta602/demo_user_login.git
+cd demo_user_login
+```
 
 ### 2. Cấu hình file `.env`
 
@@ -45,11 +46,11 @@ DEV_MARIADB_DATABASE=demoapp
 # Token
 TOKEN_TIMEOUT=30d
 TOKEN_TIMEOUT_REDIS=2592000
-
+```
 ### 3. Chạy bằng Docker
 ```bash
 docker compose up --build
-
+```
 
 ### 4.Truy cập App
 
