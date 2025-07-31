@@ -100,7 +100,7 @@ router.use(authentication);
  *     tags: [User]
  *     security:
  *       - bearerAuth: []
- *       - clientIdHeader: []
+ *       - clientId: []
  *     responses:
  *       200:
  *         description: Logout successful

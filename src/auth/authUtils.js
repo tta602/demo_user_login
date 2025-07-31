@@ -57,11 +57,13 @@ const authentication = asyncHandler(async (req, res, next) => {
   //3
   const accessToken = req.headers[HEADER.AUTHORIZATION];
 
-  if (!accessToken)
+  if (!accessToken || !accessToken.startsWith('Bearer '))
     throw new AuthFailureError(ErrorMessage.INVALID_REQUEST_TOKEN);
 
+  const token = accessToken.split(' ')[1];
+
   try {
-    const decodeUser = JWT.verify(accessToken, keyStore.privateKey);
+    const decodeUser = JWT.verify(token, keyStore.privateKey);
     if (userId !== decodeUser.userId)
       throw new AuthFailureError(ErrorMessage.INVALID_USER_ID);
 
@@ -71,25 +73,6 @@ const authentication = asyncHandler(async (req, res, next) => {
     return next();
   } catch (error) {
     console.log(error);
-    throw new AuthFailureError(ErrorMessage.TOKEN_INVALID);
-  }
-});
-
-const authForgotPassOtp = asyncHandler(async (req, res, next) => {
-  const accessToken = req.headers[HEADER.AUTHORIZATION];
-  if (!accessToken)
-    throw new AuthFailureError(ErrorMessage.INVALID_REQUEST_TOKEN);
-
-  if (!apptoken.forgot_pass_key)
-    throw new AuthFailureError(ErrorMessage.AUTH_ERROR);
-
-  try {
-    const decode = JWT.verify(accessToken, apptoken.forgot_pass_key);
-
-    req.forgotPassUserId = decode.userId;
-
-    return next();
-  } catch (error) {
     throw new AuthFailureError(ErrorMessage.TOKEN_INVALID);
   }
 });
@@ -124,6 +107,5 @@ module.exports = {
   authentication,
   isPermission,
   isTimezone,
-  authForgotPassOtp,
   createTokenPairForgotPass,
 };
