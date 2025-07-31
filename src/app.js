@@ -40,6 +40,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
   }
 }));
 
+app.get('/swagger.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
 app.use((req, res, next) => {
   const requestId = req.headers["x-request-id"];
   req.requestId = requestId ? requestId : uuidv4();
