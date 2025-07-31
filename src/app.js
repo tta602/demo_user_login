@@ -11,6 +11,10 @@ const { NotFoundError } = require("./core/error.response");
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger/swagger');
 
+const {
+  app: { port },
+} = require('./config/config.app');
+
 const app = express();
 
 const { v4: uuidv4 } = require("uuid");
@@ -30,7 +34,11 @@ app.use(compression());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  swaggerOptions: {
+    url: `http://207.148.72.26:${port}/swagger.json`, // dùng template string
+  }
+}));
 
 app.use((req, res, next) => {
   const requestId = req.headers["x-request-id"];
