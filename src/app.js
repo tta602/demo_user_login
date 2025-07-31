@@ -27,7 +27,7 @@ app.use(
   })
 );
 
-app.use(helmet());
+// app.use(helmet());
 app.use(morgan("combined"));
 app.use(compression());
 
