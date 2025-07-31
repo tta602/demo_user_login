@@ -35,14 +35,20 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  explorer: true,
+  customCssUrl: '/swagger-ui.css', // ép file nội bộ
   swaggerOptions: {
-    url: '/swagger.json', // dùng template string
-  }
+    url: '/swagger.json', // dùng nội bộ luôn, không qua https
+  },
 }));
 
 app.get('/swagger.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
+});
+
+app.use('/swagger-ui.css', (req, res) => {
+  res.redirect('http://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.css');
 });
 
 app.use((req, res, next) => {
